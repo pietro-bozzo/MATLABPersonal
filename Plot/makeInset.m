@@ -6,6 +6,10 @@ function ax = makeInset(a,b,c,d,varargin,opt)
 %     b           double, factor for original y position
 %     c           double, factor for original width, if NaN, inset will be squared
 %     d           double, factor for original heigth, if NaN, inset will be squared
+%
+% name-value arguments:
+%     ax
+%
 %     varargin    all extra arguments are passed to adjustAxes
 
 arguments

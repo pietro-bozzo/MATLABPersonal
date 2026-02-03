@@ -10,9 +10,11 @@ arguments
   name (1,1) string
   fig_title (1,1) string = ""
   subplots (2,1) {mustBeNumeric,mustBeInteger,mustBePositive} = [1,1]
+  opt.show (1,1) {mustBeLogical} = true
   opt.size (1,2) {mustBeNumeric} = [NaN,NaN]
   opt.polar {mustBeLogical} = false
   opt.TileSpacig (1,1) string = 'compact'
+  opt.axProp (:,1) cell = {}
 end
 
 if any(opt.size<=0)
@@ -36,7 +38,12 @@ for i = 1 : 2
   pos(i) = max(pos(i), pos(i)+(screen_size(i+2)-pos(i+2))/2);
 end
 
-fig = figure(Name=name,NumberTitle='off',Position=pos,DefaultLineLinewidth=1.3);
+if opt.show
+  fig = figure('Name',name,'NumberTitle','off','Position',pos,'DefaultLineLinewidth',1.3);
+else
+  fig = figure('Name',name,'NumberTitle','off','Position',pos,'DefaultLineLinewidth',1.3,'Visible','off');
+end
+
 t = []; % empty tiledlayout handle, to keep track of whether a suptitle is needed
 
 if any(subplots ~= [1,1])
@@ -51,7 +58,7 @@ if any(subplots ~= [1,1])
       axs(i) = nexttile(i);
     end
     hold on
-    adjustAxes(axs(i))
+    adjustAxes(axs(i),opt.axProp{:})
   end
 else
   if opt.polar
@@ -61,7 +68,7 @@ else
     axs = gca;
   end
   hold on
-  adjustAxes(axs)
+  adjustAxes(axs,opt.axProp{:})
 end
 
 if fig_title ~= ""

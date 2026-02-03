@@ -13,4 +13,4 @@ labels = ["mPFC","HPC","NR"];
 groups = {[3,4],[5,6,7],[1,2]};
 
 args = {labels,groups};
-runBatch(batch_file,@processCellExplorer_,args,'ignore_args',true,'verbose',true,'sessions',4:14);
+runBatch(batch_file,@processCellExplorer_,args,'ignore_args',true,'verbose',true,'sessions',12:14);

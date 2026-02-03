@@ -1,4 +1,4 @@
-function structure = reverseCellStruct(x,field_f,cat_f)
+function structure = reverseCellStruct(x,field_f,cat_f,opt)
 % reverseCellStruct Given a cell array of structs sharing the same fields, concatenate them into fields of a struct
 %
 % arguments:
@@ -16,6 +16,7 @@ arguments
   x cell
   field_f function_handle = @(x) x
   cat_f function_handle = @(x) vertcat(x{:})
+  opt.fields (1,:) string = string.empty
 end
 
 x = x(~cellfun(@isempty, x));
@@ -25,7 +26,15 @@ if isempty(x)
   return
 end
 
-for field = fieldnames(x{1})'
-  temp = cellfun(@(y) field_f(y.(field{1})),x,'UniformOutput',false);
-  structure.(field{1}) = cat_f(temp);
+if isempty(opt.fields)
+  opt.fields = string(fieldnames(x{1}))';
+end
+
+try
+  for field = opt.fields
+    temp = cellfun(@(y) field_f(y.(field)),x,'UniformOutput',false);
+    structure.(field) = cat_f(temp);
+  end
+catch ME
+  throw(ME)
 end

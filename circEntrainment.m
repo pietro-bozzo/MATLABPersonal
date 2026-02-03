@@ -2,9 +2,10 @@ function [stats,distr,distr_orig,shuffled] = circEntrainment(x,reference,opt)
 
 arguments
   x (:,1) {mustBeNumeric}
-  reference (:,:) {mustBeNumeric}
+  reference (:,:) {mustBeNumeric} = []
   opt.mode (1,1) string {mustBeMember(opt.mode,["time","phase"])} = "time"
   opt.n_bins (1,1) {mustBeNumeric,mustBeInteger,mustBePositive} = 250
+  opt.phase_dist (:,1) {mustBeNumeric} = []
   opt.intervals (:,2) {mustBeNumeric} = []
   opt.shuffle (:,:) {mustBeNumeric} = []
   opt.alpha (1,1) {mustBeNumeric,mustBeNonnegative} = 0.05
@@ -13,18 +14,31 @@ end
 % 1. distribution of phase values, corrected by prevalence of every phase bin
 
 if opt.mode == "time"
+
   if size(reference,2) ~= 2
     error('circEntrainment:refSize','In ''time'' mode, ''reference'' must have two columns')
   end
+
   % phase of each event
   phases = interp1(reference(:,1),reference(:,2),x);
-  [dist_phase,bins_phase] = CircularDistribution(reference(:,2),'nBins',opt.n_bins,'normalize','pdf');
+  
+  % distribution of reference phase values
+  if isempty(opt.phase_dist)
+    [dist_phase,bins_phase] = CircularDistribution(reference(:,2),'nBins',opt.n_bins,'normalize','pdf');
+  else
+    dist_phase = opt.phase_dist;
+  end
+  
 else
-  if size(reference,2) ~= 1
+
+  if isempty(reference)
+    reference = ones(opt.n_bins,1);
+  elseif size(reference,2) ~= 1
     error('circEntrainment:refSize','In ''phase'' mode, ''reference'' must have one column')
   end
   phases = x;
   dist_phase = reference;
+
 end
 [distr_orig,stats.R0,stats.phi0,distr,stats.R,stats.phi] = correctDistr(phases,dist_phase);
 
@@ -68,9 +82,10 @@ if opt.mode == "time"
 
 else
 
-  if size(opt.shuffle,1) ~= numel(phases)
-    error('circEntrainment:shuffle','In ''phase'' mode, ''shuffle'' must have one row for each element of ''x''')
-  end
+  % SEEMS NON NECESSARY
+  % if size(opt.shuffle,1) ~= numel(phases)
+  %   error('circEntrainment:shuffle','In ''phase'' mode, ''shuffle'' must have one row for each element of ''x''')
+  % end
 
   shuffled.phase = opt.shuffle;
   shuffled.distr = zeros(numel(dist_phase),size(opt.shuffle,2));

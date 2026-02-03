@@ -8,6 +8,7 @@ function varargout = runBatchParallel(batch_file,func,args,opt)
 %                   sessions is not supported
 %
 % name-value arguments:
+%     ignore_args   logical = false, if true, ignore optional arguments written in 'batch_file'
 %     verbose       logical = false, if true, log batch progress to console
 %
 % output:
@@ -44,6 +45,7 @@ arguments
     func (1,1) function_handle
     args (:,1) cell = {}
     opt.ignore_args {mustBeLogical} = false
+    opt.sessions = []
     opt.verbose (1,1) logical = false
 end
 
@@ -53,6 +55,10 @@ ignore_args = opt.ignore_args;
 
 % parse batch file
 [sessions,extra_args] = readBatchFile(batch_file);
+if ~isempty(opt.sessions)
+  sessions = sessions(opt.sessions);
+  extra_args = extra_args(opt.sessions);
+end
 
 % run routine
 verbose && fprintf(1,"\nStarting parallel Batch, "+string(datetime)+" \n");

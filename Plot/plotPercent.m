@@ -1,4 +1,4 @@
-function plotPercent(data,opt)
+function varargout = plotPercent(data,opt)
 % plotPercent Plot percentages on a bar graph
 
 arguments
@@ -7,6 +7,11 @@ arguments
   opt.legend (:,1) string = []
   opt.colors (:,3) double = []
   opt.ax = matlab.graphics.axis.Axes.empty
+end
+
+% vector input is always conditions (due to 'bar' behavior)
+if isvector(data)
+  data = data(:);
 end
 
 % validate input
@@ -26,7 +31,7 @@ if isempty(opt.ax)
 end
 
 % draw bars
-b = bar(opt.ax,data,FaceColor='flat');
+b = bar(opt.ax,data,'FaceColor','flat','ShowBaseLine','off');
 
 % adjust labels
 if ~isempty(opt.legend)
@@ -56,6 +61,10 @@ if ~isempty(opt.labels)
 end
 adjustAxes(opt.ax)
 ylabel(opt.ax,'percentage (%)');
+
+if nargout > 0
+  varargout{1} = b;
+end
 
 % old code to give labels to bar tips
 % if ~isempty(opt.labels)

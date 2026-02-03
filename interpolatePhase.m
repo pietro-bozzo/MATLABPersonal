@@ -97,11 +97,11 @@ end
 
 % --- helper functions ---
 
-function m = modulo(x,a,b)
-% modulo Remap all elements of x to numbers in [a,b], using modulo b-a transformations; b > a is expected
-
-  m = mod(x,b-a);
-  m(m<a) = m(m<a) + b - a;
-  m(m>b) = m(m>b) - b + a;
-
-end
+% function m = modulo(x,a,b)
+% % modulo Remap all elements of x to numbers in [a,b], using modulo b-a transformations; b > a is expected
+% 
+%   m = mod(x,b-a);
+%   m(m<a) = m(m<a) + b - a;
+%   m(m>b) = m(m>b) - b + a;
+% 
+% end
