@@ -2,7 +2,7 @@ function plotDistr(data,opt)
 % plotDistr Plot p.d.f. of data
 
 arguments (Repeating)
-  data (:,1) double
+  data (:,1) {mustBeNumeric}
 end
 arguments
   opt.nbins (1,1) {mustBeNumeric,mustBeInteger,mustBeNonnegative} = 0
