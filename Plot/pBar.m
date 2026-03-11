@@ -62,7 +62,7 @@ function [y,last_p] = plotLine(x,y,dy,p,last_p)
   if last_p > p(1)
     y = y + dy*3;
   end
-  h1 = plot(repelem(x,1,2),y+[-dy,0,0,-dy],'k','LineWidth',1);
+  h1 = plot(repelem(x,1,2),y+[-dy,0,0,-dy],'k'); % ,'LineWidth',1);
   last_p = p(2);
 
 end

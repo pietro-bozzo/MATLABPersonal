@@ -5,7 +5,7 @@ arguments
   reference (:,:) {mustBeNumeric} = []
   opt.mode (1,1) string {mustBeMember(opt.mode,["time","phase"])} = "time"
   opt.n_bins (1,1) {mustBeNumeric,mustBeInteger,mustBePositive} = 250
-  opt.phase_dist (:,1) {mustBeNumeric} = []
+  opt.phase_dist (:,1) {mustBeNumeric} = [] % MUST have domain [0,2*pi]
   opt.intervals (:,2) {mustBeNumeric} = []
   opt.shuffle (:,:) {mustBeNumeric} = []
   opt.alpha (1,1) {mustBeNumeric,mustBeNonnegative} = 0.05
@@ -113,7 +113,7 @@ function [distr0,R0,phi0,distr,R,phi] = correctDistr(phase,reference_distr)
   % distribution of phase values
   [distr0,bins_unit,statistics] = CircularDistribution(phase,'nBins',numel(reference_distr),'normalize','pdf');
   R0 = statistics.r;
-  phi0 = statistics.m;
+  phi0 = modulo(statistics.m,0,2*pi);
 
   % correct distribution by prevalence of every phase bin
   distr = distr0 ./ reference_distr;
@@ -122,7 +122,7 @@ function [distr0,R0,phi0,distr,R,phi] = correctDistr(phase,reference_distr)
   % estimate Z from pdf
   Z = trapz(bins_unit,exp(1i*bins_unit).*distr);
   R = abs(Z);
-  phi = angle(Z);
+  phi = modulo(angle(Z),0,2*pi);
 
 end
 

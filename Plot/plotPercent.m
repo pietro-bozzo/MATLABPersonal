@@ -38,7 +38,7 @@ if ~isempty(opt.legend)
   for i = 1 : size(data,2)
     b(i).DisplayName = opt.legend(i);
   end
-  legend
+  legend(opt.ax)
 end
 % adjust colors
 if ~isempty (opt.colors)
