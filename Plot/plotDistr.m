@@ -24,7 +24,7 @@ if numel(data) ~= size(opt.color,1)
   error('plotAvalDistrOnAxis:colorNumber','Number of colors must equal number of data vectors')
 end
 
-for i = 1 : numel(data)
+for i = numel(data) : -1 : 1
   if opt.polar
     if opt.nbins == 0
       opt.nbins = 25;
@@ -53,7 +53,7 @@ end
 
 % adjust axes
 if opt.log, scale = 'log'; else, scale = 'linear'; end
-set(opt.ax,'XScale',scale,'YScale',scale);
+set(opt.ax,'XScale',scale,'YScale',scale,'YTick',[]);
 
 % make axis labels
 if opt.name ~= ""
