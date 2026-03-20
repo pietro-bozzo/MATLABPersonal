@@ -92,7 +92,7 @@ parfor i = 1 : numel(sessions)
 end
 
 % log progress to console
-verbose && fprintf(1,'Batch completed with %d errors',sum(errors));
+verbose && fprintf(1,"Batch completed with "+string(sum(errors))+" errors, "+string(datetime));
 if any(errors) && verbose
   fprintf(1,' in sessions: \n');
   for i = find(errors).'
