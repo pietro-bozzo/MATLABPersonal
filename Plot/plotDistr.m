@@ -1,12 +1,27 @@
 function plotDistr(data,opt)
-% plotDistr Plot p.d.f. of data
+% plotDistr Plot probability densiti function of data
+%
+% repeating arguments
+%
+%
+% name-value arguments
+%     nbins
+%     polar       logical = false, make [0,2*pi] edges
+%     log         logical = false, plot on loglog axis
+%     label       (:,1) string = [], legend labels
+%     color       (:,3), RGB color matrix, one for each element of data
+%     lineprop    (:,1) cell = {}, properties passed to plot()
+%     name        string = "" % name of the quantity plotted
+%     unit        string = ""
+%     type        string = "pdf"
+%     ax
 
 arguments (Repeating)
   data (:,1) {mustBeNumeric}
 end
 arguments
   opt.nbins (1,1) {mustBeNumeric,mustBeInteger,mustBeNonnegative} = 0
-  opt.polar (1,1) {mustBeLogical} = false % make [0,2*pi] edges
+  opt.polar (1,1) {mustBeLogical} = false
   opt.log (1,1) {mustBeLogical} = false % plot on loglog axis
   opt.label (:,1) string = [] % legend labels
   opt.color (:,3) {mustBeNumeric,mustBeNonnegative,mustBeLessThanOrEqual(opt.color,1)} = myColors(1:numel(data))

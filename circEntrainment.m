@@ -101,7 +101,7 @@ else
 end
 
 % H0: shuffled events can produce R as high as observed
-stats.p = 1 - percentRank(shuffled.R,stats.R);
+stats.p = MCpValue(shuffled.R,stats.R,'greater');
 stats.h = stats.p < opt.alpha;
 
 end

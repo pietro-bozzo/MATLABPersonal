@@ -141,7 +141,7 @@ arguments
   opt.jitter (1,1) = 'v'
   opt.smedian (1,1) {mustBeLogical} = true
   opt.outliers (1,1) string = "k*"
-  opt.ssize (1,1) {mustBeNumeric} = 50
+  opt.ssize (1,1) {mustBeNumeric} = 40
   opt.scolor = 'same'
   opt.salpha (1,1) {mustBeNumeric} = NaN
   opt.linkline (1,1) {mustBeLogical} = false

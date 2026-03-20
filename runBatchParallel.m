@@ -9,7 +9,7 @@ function varargout = runBatchParallel(batch_file,func,args,opt)
 %
 % name-value arguments:
 %     ignore_args   logical = false, if true, ignore optional arguments written in 'batch_file'
-%     verbose       logical = false, if true, log batch progress to console
+%     verbose       logical = true, log batch progress to console
 %
 % output:
 %     varargout     (1,n_out_func) of (n_sessions,1) cell, i-th element of varargout is a cell array containing all i-th outputs of func for
@@ -46,7 +46,7 @@ arguments
     args (:,1) cell = {}
     opt.ignore_args {mustBeLogical} = false
     opt.sessions = []
-    opt.verbose (1,1) logical = false
+    opt.verbose (1,1) logical = true
 end
 
 % create variable not to broadcast structure opt to parfor workers
@@ -96,7 +96,7 @@ verbose && fprintf(1,'Batch completed with %d errors',sum(errors));
 if any(errors) && verbose
   fprintf(1,' in sessions: \n');
   for i = find(errors).'
-    fprintf(2,sessions(i)+'\n');
+    fprintf(2,sessions(i)+" ("+string(i)+')\n');
   end
   fprintf(1,'Use runBatch for a complete error stack');
 end

@@ -230,13 +230,13 @@ for i = 1 : nGroups
     errors(i,:) = semfun(x(groups==unique_groups(i),:));
 end
 
-% 1. test if each group differs from zero SHOULDN'T WE CORRECT post-hoc HERE?
+% 1. test if each group differs from zero
 if opt.alpha(1) > 0
     p.p0 = nan(nGroups,nCols);
     for j = 1 : nCols
         p.p0(:,j) = accumarray(groups,x(:,j),[],test0);
     end
-    h.h0 = p.p0 < opt.alpha(1);
+    h.h0 = holmBonferroni(p.p0,opt.alpha(1));
 end
 
 % 2. ANOVA and multiple comparisons WHEN THERE'S ONLY 1 COL, multcompare ERRORS
