@@ -9,4 +9,4 @@ batch_file = '/mnt/hubel-data-103/Pietro/Data/BatchFiles/sakura.batch';
 batch_file = '/mnt/hubel-data-103/Pietro/Data/BatchFiles/IS_intervals_dvHPC.batch';
 batch_file = '/mnt/hubel-data-103/Pietro/Data/BatchFiles/cell_explorer.batch';
 
-runBatch(batch_file,@processCellExplorer_,'verbose',true);
+runBatch(batch_file,@processCellExplorer_,'verbose',true,'sessions',1:36);
